@@ -32,9 +32,9 @@ impl MintCustomizer for DefaultToken2022Customizer {
         ])
     }
 
-    fn pre_initialize_extensions<'a>(
-        wrapped_mint_account: &'a AccountInfo<'a>,
-        wrapped_token_program_account: &'a AccountInfo<'a>,
+    fn pre_initialize_extensions(
+        wrapped_mint_account: &AccountInfo,
+        wrapped_token_program_account: &AccountInfo,
     ) -> ProgramResult {
         // Initialize confidential transfer ext
         invoke(
@@ -64,13 +64,14 @@ impl MintCustomizer for DefaultToken2022Customizer {
     }
 
     fn post_initialize_extensions<'a>(
-        wrapped_mint_account: &'a AccountInfo<'a>,
-        wrapped_token_program_account: &'a AccountInfo<'a>,
-        wrapped_mint_authority_account: &'a AccountInfo<'a>,
+        wrapped_mint_account: &AccountInfo<'a>,
+        wrapped_token_program_account: &AccountInfo,
+        wrapped_mint_authority_account: &AccountInfo<'a>,
         mint_authority_signer_seeds: &[&[u8]],
     ) -> ProgramResult {
         // Initialize metadata ext (must be done after mint initialization)
         let wrapped_mint_authority = get_wrapped_mint_authority(wrapped_mint_account.key);
+        let wrapped_mint_account_key = wrapped_mint_account.key;
 
         let cpi_accounts = [
             wrapped_mint_account.clone(),
@@ -82,9 +83,9 @@ impl MintCustomizer for DefaultToken2022Customizer {
         invoke_signed(
             &initialize_token_metadata(
                 wrapped_token_program_account.key,
-                wrapped_mint_account.key,
+                wrapped_mint_account_key,
                 &wrapped_mint_authority,
-                wrapped_mint_account.key,
+                wrapped_mint_account_key,
                 &wrapped_mint_authority,
                 "".to_string(),
                 "".to_string(),

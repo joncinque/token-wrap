@@ -13,18 +13,18 @@ pub trait MintCustomizer {
     /// Customizes extensions for the wrapped mint *before* the base mint is
     /// initialized. This is for extensions that must be initialized on an
     /// uninitialized mint account, like `ConfidentialTransferMint`.
-    fn pre_initialize_extensions<'a>(
-        wrapped_mint_account: &'a AccountInfo<'a>,
-        wrapped_token_program_account: &'a AccountInfo<'a>,
+    fn pre_initialize_extensions(
+        wrapped_mint_account: &AccountInfo,
+        wrapped_token_program_account: &AccountInfo,
     ) -> ProgramResult;
 
     /// Customizes extensions for the wrapped mint *after* the base mint is
     /// initialized. This is for extensions that require the mint to be
     /// initialized, like `TokenMetadata`.
     fn post_initialize_extensions<'a>(
-        wrapped_mint_account: &'a AccountInfo<'a>,
-        wrapped_token_program_account: &'a AccountInfo<'a>,
-        wrapped_mint_authority_account: &'a AccountInfo<'a>,
+        wrapped_mint_account: &AccountInfo<'a>,
+        wrapped_token_program_account: &AccountInfo,
+        wrapped_mint_authority_account: &AccountInfo<'a>,
         mint_authority_signer_seeds: &[&[u8]],
     ) -> ProgramResult;
 

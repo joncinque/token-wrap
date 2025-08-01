@@ -19,17 +19,17 @@ impl MintCustomizer for NoExtensionCustomizer {
         ExtensionType::try_calculate_account_len::<Mint>(&extensions)
     }
 
-    fn pre_initialize_extensions<'a>(
-        _wrapped_mint_account: &'a AccountInfo<'a>,
-        _wrapped_token_program_account: &'a AccountInfo<'a>,
+    fn pre_initialize_extensions(
+        _wrapped_mint_account: &AccountInfo,
+        _wrapped_token_program_account: &AccountInfo,
     ) -> ProgramResult {
         Ok(())
     }
 
     fn post_initialize_extensions<'a>(
-        _wrapped_mint_account: &'a AccountInfo<'a>,
-        _wrapped_token_program_account: &'a AccountInfo<'a>,
-        _wrapped_mint_authority_account: &'a AccountInfo<'a>,
+        _wrapped_mint_account: &AccountInfo<'a>,
+        _wrapped_token_program_account: &AccountInfo,
+        _wrapped_mint_authority_account: &AccountInfo<'a>,
         _mint_authority_signer_seeds: &[&[u8]],
     ) -> ProgramResult {
         Ok(())
